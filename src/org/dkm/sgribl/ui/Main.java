@@ -45,17 +45,78 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainScroll = new javax.swing.JScrollPane();
+        mainArea = new javax.swing.JTextArea();
+        mainMenu = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        newItem = new javax.swing.JMenuItem();
+        openItem = new javax.swing.JMenuItem();
+        saveItem = new javax.swing.JMenuItem();
+        firstSeparator = new javax.swing.JPopupMenu.Separator();
+        printItem = new javax.swing.JMenuItem();
+        secondSeparator = new javax.swing.JPopupMenu.Separator();
+        exitItem = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sgribl Editor");
+
+        mainScroll.setName("mainScroll"); // NOI18N
+
+        mainArea.setColumns(20);
+        mainArea.setRows(5);
+        mainArea.setName("mainArea"); // NOI18N
+        mainScroll.setViewportView(mainArea);
+
+        mainMenu.setName("mainMenu"); // NOI18N
+
+        fileMenu.setText("File");
+        fileMenu.setName("fileMenu"); // NOI18N
+
+        newItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newItem.setText("New");
+        newItem.setName("newItem"); // NOI18N
+        fileMenu.add(newItem);
+
+        openItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openItem.setText("Open");
+        openItem.setName("openItem"); // NOI18N
+        fileMenu.add(openItem);
+
+        saveItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveItem.setText("Save");
+        saveItem.setName("saveItem"); // NOI18N
+        fileMenu.add(saveItem);
+
+        firstSeparator.setName("firstSeparator"); // NOI18N
+        fileMenu.add(firstSeparator);
+
+        printItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        printItem.setText("Print");
+        printItem.setName("printItem"); // NOI18N
+        fileMenu.add(printItem);
+
+        secondSeparator.setName("secondSeparator"); // NOI18N
+        fileMenu.add(secondSeparator);
+
+        exitItem.setText("Exit");
+        exitItem.setName("exitItem"); // NOI18N
+        fileMenu.add(exitItem);
+
+        mainMenu.add(fileMenu);
+
+        setJMenuBar(mainMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(mainScroll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(mainScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -65,37 +126,24 @@ public class Main extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem exitItem;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JPopupMenu.Separator firstSeparator;
+    private javax.swing.JTextArea mainArea;
+    private javax.swing.JMenuBar mainMenu;
+    private javax.swing.JScrollPane mainScroll;
+    private javax.swing.JMenuItem newItem;
+    private javax.swing.JMenuItem openItem;
+    private javax.swing.JMenuItem printItem;
+    private javax.swing.JMenuItem saveItem;
+    private javax.swing.JPopupMenu.Separator secondSeparator;
     // End of variables declaration//GEN-END:variables
 }
