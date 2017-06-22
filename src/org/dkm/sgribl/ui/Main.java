@@ -22,13 +22,13 @@
  * THE SOFTWARE.
  */
 package org.dkm.sgribl.ui;
-
 /**
  *
  * @author Денис
  */
 public class Main extends javax.swing.JFrame {
-
+    
+    boolean isSaved = false;
     /**
      * Creates new form Main
      */
@@ -100,6 +100,11 @@ public class Main extends javax.swing.JFrame {
 
         exitItem.setText("Exit");
         exitItem.setName("exitItem"); // NOI18N
+        exitItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(exitItem);
 
         mainMenu.add(fileMenu);
@@ -121,6 +126,10 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitItemActionPerformed
 
     /**
      * @param args the command line arguments
