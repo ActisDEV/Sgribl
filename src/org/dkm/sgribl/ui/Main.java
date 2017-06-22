@@ -22,13 +22,17 @@
  * THE SOFTWARE.
  */
 package org.dkm.sgribl.ui;
+
+import javax.swing.*;
+import java.io.*;
 /**
  *
  * @author Денис
  */
 public class Main extends javax.swing.JFrame {
     
-    boolean isSaved = false;
+    JFileChooser openChooser;
+    File usingFile;
     /**
      * Creates new form Main
      */
@@ -75,16 +79,31 @@ public class Main extends javax.swing.JFrame {
         newItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newItem.setText("New");
         newItem.setName("newItem"); // NOI18N
+        newItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(newItem);
 
         openItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         openItem.setText("Open");
         openItem.setName("openItem"); // NOI18N
+        openItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(openItem);
 
         saveItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveItem.setText("Save");
         saveItem.setName("saveItem"); // NOI18N
+        saveItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveItem);
 
         firstSeparator.setName("firstSeparator"); // NOI18N
@@ -93,6 +112,11 @@ public class Main extends javax.swing.JFrame {
         printItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         printItem.setText("Print");
         printItem.setName("printItem"); // NOI18N
+        printItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(printItem);
 
         secondSeparator.setName("secondSeparator"); // NOI18N
@@ -130,6 +154,33 @@ public class Main extends javax.swing.JFrame {
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitItemActionPerformed
+
+    private void newItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newItemActionPerformed
+
+    }//GEN-LAST:event_newItemActionPerformed
+
+    private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
+        openChooser = new JFileChooser();
+        openChooser.showOpenDialog(this);
+        usingFile = openChooser.getSelectedFile();
+        try {
+           FileReader reader = new FileReader(usingFile);
+           mainArea.read(reader, usingFile);
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException: " + e.getMessage());
+        } catch (IOException e1) {
+            System.out.println("IOException: " + e1.getMessage());
+        }
+    }//GEN-LAST:event_openItemActionPerformed
+
+    private void saveItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveItemActionPerformed
+        openChooser = new JFileChooser();
+        openChooser.showSaveDialog(this);
+    }//GEN-LAST:event_saveItemActionPerformed
+
+    private void printItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_printItemActionPerformed
 
     /**
      * @param args the command line arguments
