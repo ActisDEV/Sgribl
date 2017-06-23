@@ -25,6 +25,7 @@ package org.dkm.sgribl.ui;
 
 import javax.swing.*;
 import java.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author Денис
@@ -161,6 +162,7 @@ public class Main extends javax.swing.JFrame {
 
     private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
         openChooser = new JFileChooser();
+        openChooser.setFileFilter(new FileNameExtensionFilter("Text file (.txt)", "txt"));
         openChooser.showOpenDialog(this);
         usingFile = openChooser.getSelectedFile();
         try {
@@ -175,7 +177,17 @@ public class Main extends javax.swing.JFrame {
 
     private void saveItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveItemActionPerformed
         openChooser = new JFileChooser();
+        openChooser.setFileFilter(new FileNameExtensionFilter("Text file (.txt)", "txt"));
         openChooser.showSaveDialog(this);
+        usingFile = openChooser.getSelectedFile();
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(usingFile, false));
+            mainArea.write(writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_saveItemActionPerformed
 
     private void printItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printItemActionPerformed
