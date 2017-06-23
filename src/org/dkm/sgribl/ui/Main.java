@@ -26,6 +26,7 @@ package org.dkm.sgribl.ui;
 import javax.swing.*;
 import java.io.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 /**
  *
  * @author Денис
@@ -34,7 +35,11 @@ public class Main extends javax.swing.JFrame {
     
     JFileChooser openChooser;
     File usingFile;
-    /**
+    boolean isSavedAs = false;
+    boolean isSaved = false;
+    
+    Desktop desktop;
+    /*
      * Creates new form Main
      */
     public Main() {
@@ -57,9 +62,8 @@ public class Main extends javax.swing.JFrame {
         newItem = new javax.swing.JMenuItem();
         openItem = new javax.swing.JMenuItem();
         saveItem = new javax.swing.JMenuItem();
+        saveAsItem = new javax.swing.JMenuItem();
         firstSeparator = new javax.swing.JPopupMenu.Separator();
-        printItem = new javax.swing.JMenuItem();
-        secondSeparator = new javax.swing.JPopupMenu.Separator();
         exitItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -70,6 +74,11 @@ public class Main extends javax.swing.JFrame {
         mainArea.setColumns(20);
         mainArea.setRows(5);
         mainArea.setName("mainArea"); // NOI18N
+        mainArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mainAreaKeyTyped(evt);
+            }
+        });
         mainScroll.setViewportView(mainArea);
 
         mainMenu.setName("mainMenu"); // NOI18N
@@ -107,21 +116,18 @@ public class Main extends javax.swing.JFrame {
         });
         fileMenu.add(saveItem);
 
-        firstSeparator.setName("firstSeparator"); // NOI18N
-        fileMenu.add(firstSeparator);
-
-        printItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        printItem.setText("Print");
-        printItem.setName("printItem"); // NOI18N
-        printItem.addActionListener(new java.awt.event.ActionListener() {
+        saveAsItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAsItem.setText("Save as...");
+        saveAsItem.setName("saveAsItem"); // NOI18N
+        saveAsItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printItemActionPerformed(evt);
+                saveAsItemActionPerformed(evt);
             }
         });
-        fileMenu.add(printItem);
+        fileMenu.add(saveAsItem);
 
-        secondSeparator.setName("secondSeparator"); // NOI18N
-        fileMenu.add(secondSeparator);
+        firstSeparator.setName("firstSeparator"); // NOI18N
+        fileMenu.add(firstSeparator);
 
         exitItem.setText("Exit");
         exitItem.setName("exitItem"); // NOI18N
@@ -144,55 +150,120 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(mainScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(mainScroll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
-        System.exit(0);
+        if (isSaved == false) {
+            int reply = JOptionPane.showConfirmDialog(null, "File is not saved! Are you sure?", "Progress not saved", JOptionPane.YES_NO_OPTION);
+            switch (reply) {
+                case 0: System.exit(0);
+                case 1: this.saveItemActionPerformed(evt);
+                case -1: break;
+            }
+        } else {
+            System.exit(0);
+        }
     }//GEN-LAST:event_exitItemActionPerformed
 
     private void newItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newItemActionPerformed
-
+        if (isSaved == false) {
+             int reply = JOptionPane.showConfirmDialog(null, "File is not saved! Are you sure?", "Progress not saved", JOptionPane.YES_NO_OPTION);
+             switch (reply) {
+                case 0: 
+                     mainArea.setText(null);
+                     usingFile = null;
+                     isSaved = false;
+                     isSavedAs = false;
+                     break;
+                case 1: this.saveItemActionPerformed(evt);
+                    break;
+                case -1: break;
+             }
+        }
     }//GEN-LAST:event_newItemActionPerformed
 
     private void openItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openItemActionPerformed
         openChooser = new JFileChooser();
         openChooser.setFileFilter(new FileNameExtensionFilter("Text file (.txt)", "txt"));
-        openChooser.showOpenDialog(this);
+        int reply = openChooser.showOpenDialog(this);
         usingFile = openChooser.getSelectedFile();
-        try {
-           FileReader reader = new FileReader(usingFile);
-           mainArea.read(reader, usingFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("FileNotFoundException: " + e.getMessage());
-        } catch (IOException e1) {
-            System.out.println("IOException: " + e1.getMessage());
+        switch (reply) {
+            case 0:
+                try {
+                    FileReader reader = new FileReader(usingFile);
+                    mainArea.read(reader, usingFile);
+                } catch (FileNotFoundException e) {
+                    System.out.println("FileNotFoundException: " + e.getMessage());
+                } catch (IOException e1) {
+                    System.out.println("IOException: " + e1.getMessage());
+                }
+            case 1:
+                break;
         }
     }//GEN-LAST:event_openItemActionPerformed
 
     private void saveItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveItemActionPerformed
         openChooser = new JFileChooser();
         openChooser.setFileFilter(new FileNameExtensionFilter("Text file (.txt)", "txt"));
-        openChooser.showSaveDialog(this);
-        usingFile = openChooser.getSelectedFile();
         BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(usingFile, false));
-            mainArea.write(writer);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (isSavedAs == false) {
+            int reply = openChooser.showSaveDialog(this);
+            usingFile = openChooser.getSelectedFile();
+            switch (reply) {
+            case 0 :
+                try {
+                    writer = new BufferedWriter(new FileWriter(usingFile, false));
+                    mainArea.write(writer);
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                isSavedAs = true;
+                isSaved = true;
+            case 1: 
+                break;
+        }
+        } else {
+            try {
+                writer = new BufferedWriter(new FileWriter(usingFile, false));
+                mainArea.write(writer);
+                writer.close();
+            } catch (Exception e1) {
+                System.out.println(e1.getMessage());
+            }
+            isSaved = true;
         }
     }//GEN-LAST:event_saveItemActionPerformed
 
-    private void printItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printItemActionPerformed
+    private void saveAsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsItemActionPerformed
+        openChooser = new JFileChooser();
+        openChooser.setFileFilter(new FileNameExtensionFilter("Text file (.txt)", "txt"));
+        int reply = openChooser.showSaveDialog(this);
+        usingFile = openChooser.getSelectedFile();
+        BufferedWriter writer;
+        switch (reply) {
+            case 0 :
+                try {
+                    writer = new BufferedWriter(new FileWriter(usingFile, false));
+                    mainArea.write(writer);
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                isSavedAs = true;
+                isSaved = true;
+            case 1: 
+                break;
+        }
+    }//GEN-LAST:event_saveAsItemActionPerformed
+
+    private void mainAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mainAreaKeyTyped
+        isSaved = false;
+    }//GEN-LAST:event_mainAreaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -214,8 +285,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane mainScroll;
     private javax.swing.JMenuItem newItem;
     private javax.swing.JMenuItem openItem;
-    private javax.swing.JMenuItem printItem;
+    private javax.swing.JMenuItem saveAsItem;
     private javax.swing.JMenuItem saveItem;
-    private javax.swing.JPopupMenu.Separator secondSeparator;
     // End of variables declaration//GEN-END:variables
 }
